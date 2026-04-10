@@ -1,24 +1,35 @@
-import { DarkTheme, DefaultTheme, ThemeProvider } from '@react-navigation/native';
-import { Stack } from 'expo-router';
-import { StatusBar } from 'expo-status-bar';
-import 'react-native-reanimated';
+import { QueryClientProvider } from "@tanstack/react-query";
+import { Stack } from "expo-router";
+import { useEffect } from "react";
+import { ActivityIndicator, View } from "react-native";
 
-import { useColorScheme } from '@/hooks/use-color-scheme';
-
-export const unstable_settings = {
-  anchor: '(tabs)',
-};
+import { useAuth } from "@/features/auth/hooks";
+import { queryClient } from "@/services/queryClient";
 
 export default function RootLayout() {
-  const colorScheme = useColorScheme();
+  const { hydrate, isHydrated, isAuthenticated } = useAuth();
+
+  useEffect(() => {
+    void hydrate();
+  }, [hydrate]);
+
+  if (!isHydrated) {
+    return (
+      <View style={{ flex: 1, alignItems: "center", justifyContent: "center" }}>
+        <ActivityIndicator size="large" />
+      </View>
+    );
+  }
 
   return (
-    <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
-      <Stack>
-        <Stack.Screen name="(tabs)" options={{ headerShown: false }} />
-        <Stack.Screen name="modal" options={{ presentation: 'modal', title: 'Modal' }} />
+    <QueryClientProvider client={queryClient}>
+      <Stack screenOptions={{ headerShown: false }}>
+        <Stack.Screen name="index" />
+        <Stack.Screen name="(auth)" />
+        <Stack.Protected guard={isAuthenticated}>
+          <Stack.Screen name="(protected)" />
+        </Stack.Protected>
       </Stack>
-      <StatusBar style="auto" />
-    </ThemeProvider>
+    </QueryClientProvider>
   );
 }
