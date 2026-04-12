@@ -3,7 +3,7 @@ import axios from "axios";
 import { useAuthStore } from "@/features/auth/store";
 
 export const apiClient = axios.create({
-  baseURL: "https://dummyjson.com",
+  baseURL: process.env.EXPO_PUBLIC_API_URL,
   timeout: 15000,
 });
 

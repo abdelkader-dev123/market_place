@@ -1,7 +1,5 @@
 import axios from "axios";
 
-const DUMMY_JSON_BASE_URL = "https://dummyjson.com";
-
 type DummyLoginResponse = {
   accessToken: string;
 };
@@ -13,7 +11,7 @@ export type LoginPayload = {
 
 export async function login(payload: LoginPayload): Promise<string> {
   const response = await axios.post<DummyLoginResponse>(
-    `${DUMMY_JSON_BASE_URL}/auth/login`,
+    `${process.env.EXPO_PUBLIC_API_URL}/auth/login`,
     {
       username: payload.username.trim(),
       password: payload.password,
