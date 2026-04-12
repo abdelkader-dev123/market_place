@@ -3,6 +3,9 @@ import { Pressable, StyleSheet, Text, View } from "react-native";
 
 import { MaterialIcons } from "@expo/vector-icons";
 
+import { colors } from "@/constants/colors";
+import { fontSizes } from "@/constants/fontSizes";
+
 type HeaderProps = {
   title?: string;
 };
@@ -11,7 +14,7 @@ export function Header({ title = "Product Details" }: HeaderProps) {
   return (
     <View style={styles.container}>
       <Pressable onPress={() => router.back()} style={styles.backButton}>
-        <MaterialIcons name="arrow-back" size={24} color="black" />
+        <MaterialIcons name="arrow-back" size={24} color={colors.primary} />
       </Pressable>
       <Text style={styles.title} numberOfLines={1}>
         {title}
@@ -32,24 +35,24 @@ const styles = StyleSheet.create({
     width: 38,
     height: 38,
     borderRadius: 10,
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: colors.border,
     alignItems: "center",
     justifyContent: "center",
   },
   backIcon: {
-    color: "#111827",
-    fontSize: 20,
+    color: colors.primary,
+    fontSize: fontSizes["2xl"],
     alignSelf: "center",
     fontWeight: "600",
   },
   title: {
     flex: 1,
     textAlign: "center",
-    fontSize: 17,
+    fontSize: fontSizes.lg,
     fontWeight: "600",
-    color: "#111827",
+    color: colors.primary,
     marginHorizontal: 12,
   },
   rightSpacer: {

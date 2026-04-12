@@ -1,5 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
+import { colors } from "@/constants/colors";
+import { fontSizes } from "@/constants/fontSizes";
+
 export type ViewMode = "list" | "grid";
 
 type Props = {
@@ -33,16 +36,20 @@ export function ViewToggle({ value, onChange }: Props) {
 const styles = StyleSheet.create({
   container: {
     flexDirection: "row",
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: colors.border,
     borderRadius: 10,
     padding: 3,
     alignSelf: "flex-start",
     marginBottom: 10,
   },
   option: { paddingHorizontal: 10, paddingVertical: 6, borderRadius: 8 },
-  optionActive: { backgroundColor: "#111827" },
-  text: { color: "#4B5563", fontSize: 12, fontWeight: "600" },
-  textActive: { color: "#FFFFFF" },
+  optionActive: { backgroundColor: colors.primary },
+  text: {
+    color: colors.textSecondary,
+    fontSize: fontSizes.xs,
+    fontWeight: "600",
+  },
+  textActive: { color: colors.onPrimary },
 });

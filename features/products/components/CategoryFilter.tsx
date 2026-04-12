@@ -1,6 +1,8 @@
 import { useMemo } from "react";
 import { Pressable, ScrollView, StyleSheet, Text } from "react-native";
 
+import { colors } from "@/constants/colors";
+
 type Props = {
   categories: string[];
   selected: string | undefined;
@@ -48,18 +50,21 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   chip: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: colors.border,
     borderRadius: 999,
     paddingHorizontal: 12,
     paddingVertical: 8,
   },
-  chipActive: { backgroundColor: "#111827", borderColor: "#111827" },
+  chipActive: {
+    backgroundColor: colors.primary,
+    borderColor: colors.primary,
+  },
   chipText: {
-    color: "#374151",
+    color: colors.textBody,
     fontWeight: "500",
     textTransform: "capitalize",
   },
-  chipTextActive: { color: "#FFFFFF" },
+  chipTextActive: { color: colors.onPrimary },
 });

@@ -6,7 +6,7 @@ export default function AuthLayout() {
   const { isAuthenticated } = useAuth();
 
   if (isAuthenticated) {
-    return <Redirect href="/(protected)" />;
+    return <Redirect href="/(main)" />;
   }
 
   return <Stack screenOptions={{ headerShown: false }} />;

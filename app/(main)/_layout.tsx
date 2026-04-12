@@ -2,7 +2,7 @@ import { Redirect, Stack } from "expo-router";
 
 import { useAuth } from "@/features/auth/hooks";
 
-export default function ProtectedLayout() {
+export default function Layout() {
   const { isAuthenticated } = useAuth();
 
   if (!isAuthenticated) {

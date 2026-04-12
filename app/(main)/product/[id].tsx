@@ -11,6 +11,8 @@ import {
 } from "react-native";
 
 import { Header } from "@/components/header";
+import { colors } from "@/constants/colors";
+import { fontSizes } from "@/constants/fontSizes";
 import {
   useDeleteProduct,
   useProduct,
@@ -56,7 +58,7 @@ export default function ProductDetailScreen() {
     return (
       <SafeAreaView style={styles.safeArea}>
         <View style={styles.centerContent}>
-          <ActivityIndicator size="large" />
+          <ActivityIndicator color={colors.primary} size="large" />
         </View>
       </SafeAreaView>
     );
@@ -111,27 +113,37 @@ export default function ProductDetailScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#F4F6F8" },
+  safeArea: { flex: 1, backgroundColor: colors.background },
   container: { padding: 16, paddingBottom: 24 },
   centerContent: { flex: 1, alignItems: "center", justifyContent: "center" },
   image: {
     width: "100%",
     height: 260,
     borderRadius: 16,
-    backgroundColor: "#E5E7EB",
+    backgroundColor: colors.imagePlaceholder,
   },
-  title: { marginTop: 16, fontSize: 28, fontWeight: "700", color: "#111827" },
-  meta: { marginTop: 8, color: "#6B7280", textTransform: "capitalize" },
-  price: { marginTop: 14, fontSize: 24, fontWeight: "700", color: "#111827" },
+  title: {
+    marginTop: 16,
+    fontSize: fontSizes["4xl"],
+    fontWeight: "700",
+    color: colors.primary,
+  },
+  meta: { marginTop: 8, color: colors.textMuted, textTransform: "capitalize" },
+  price: {
+    marginTop: 14,
+    fontSize: fontSizes["3xl"],
+    fontWeight: "700",
+    color: colors.primary,
+  },
   actionsRow: { marginTop: 14, flexDirection: "row", gap: 10 },
   actionButton: {
     borderRadius: 10,
     paddingHorizontal: 14,
     paddingVertical: 10,
   },
-  updateButton: { backgroundColor: "#111827" },
-  deleteButton: { backgroundColor: "#B91C1C" },
-  actionText: { color: "#FFFFFF", fontWeight: "600" },
-  description: { marginTop: 16, color: "#374151", lineHeight: 22 },
-  error: { color: "#DC2626" },
+  updateButton: { backgroundColor: colors.primary },
+  deleteButton: { backgroundColor: colors.destructive },
+  actionText: { color: colors.onPrimary, fontWeight: "600" },
+  description: { marginTop: 16, color: colors.textBody, lineHeight: 22 },
+  error: { color: colors.error },
 });

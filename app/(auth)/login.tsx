@@ -12,6 +12,8 @@ import {
   View,
 } from "react-native";
 
+import { colors } from "@/constants/colors";
+import { fontSizes } from "@/constants/fontSizes";
 import { login as loginApi } from "@/features/auth/api";
 import { useAuth } from "@/features/auth/hooks";
 import { SafeAreaView } from "react-native-safe-area-context";
@@ -32,7 +34,7 @@ export default function LoginScreen() {
     mutationFn: loginApi,
     onSuccess: async (token) => {
       await login(token);
-      router.replace("/(protected)");
+      router.replace("/(main)");
     },
     onError: () => {
       setRequestError("Invalid credentials. Please try again.");
@@ -67,7 +69,7 @@ export default function LoginScreen() {
               autoCorrect={false}
               onChangeText={setUsername}
               placeholder="Enter username"
-              placeholderTextColor="#9CA3AF"
+              placeholderTextColor={colors.textPlaceholder}
               style={styles.input}
               value={username}
             />
@@ -78,7 +80,7 @@ export default function LoginScreen() {
             <TextInput
               onChangeText={setPassword}
               placeholder="Enter password"
-              placeholderTextColor="#9CA3AF"
+              placeholderTextColor={colors.textPlaceholder}
               secureTextEntry
               style={styles.input}
               value={password}
@@ -99,7 +101,7 @@ export default function LoginScreen() {
             ]}
           >
             {loginMutation.isPending ? (
-              <ActivityIndicator color="#FFFFFF" />
+              <ActivityIndicator color={colors.onPrimary} />
             ) : (
               <Text style={styles.buttonText}>Sign In</Text>
             )}
@@ -113,7 +115,7 @@ export default function LoginScreen() {
 const styles = StyleSheet.create({
   safeArea: {
     flex: 1,
-    backgroundColor: "#F4F6F8",
+    backgroundColor: colors.background,
   },
   container: {
     flex: 1,
@@ -121,30 +123,30 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   card: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderRadius: 20,
     padding: 22,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
-    shadowColor: "#111827",
+    borderColor: colors.border,
+    shadowColor: colors.primary,
     shadowOpacity: 0.08,
     shadowRadius: 14,
     shadowOffset: { width: 0, height: 6 },
     elevation: 2,
   },
   kicker: {
-    color: "#6B7280",
-    fontSize: 13,
+    color: colors.textMuted,
+    fontSize: fontSizes.sm,
     marginBottom: 4,
   },
   title: {
-    color: "#111827",
-    fontSize: 28,
+    color: colors.primary,
+    fontSize: fontSizes["4xl"],
     fontWeight: "700",
     marginBottom: 8,
   },
   subtitle: {
-    color: "#4B5563",
+    color: colors.textSecondary,
     marginTop: 8,
     marginBottom: 20,
     lineHeight: 20,
@@ -153,28 +155,28 @@ const styles = StyleSheet.create({
     marginBottom: 14,
   },
   label: {
-    fontSize: 13,
-    color: "#374151",
+    fontSize: fontSizes.sm,
+    color: colors.textBody,
     marginBottom: 8,
   },
   input: {
-    backgroundColor: "#F9FAFB",
+    backgroundColor: colors.surfaceSubtle,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: colors.border,
     borderRadius: 12,
     paddingHorizontal: 14,
     paddingVertical: 12,
-    color: "#111827",
-    fontSize: 15,
+    color: colors.primary,
+    fontSize: fontSizes.base,
   },
   error: {
-    color: "#DC2626",
+    color: colors.error,
     marginBottom: 10,
-    fontSize: 13,
+    fontSize: fontSizes.sm,
   },
   button: {
     marginTop: 8,
-    backgroundColor: "#111827",
+    backgroundColor: colors.primary,
     borderRadius: 12,
     paddingVertical: 13,
     alignItems: "center",
@@ -186,13 +188,13 @@ const styles = StyleSheet.create({
     opacity: 0.7,
   },
   buttonText: {
-    color: "#FFFFFF",
-    fontSize: 16,
+    color: colors.onPrimary,
+    fontSize: fontSizes.md,
     fontWeight: "600",
   },
   helperText: {
     marginTop: 14,
-    color: "#6B7280",
-    fontSize: 12,
+    color: colors.textMuted,
+    fontSize: fontSizes.xs,
   },
 });

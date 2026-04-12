@@ -1,5 +1,7 @@
 import { FlashList } from "@shopify/flash-list";
 import { ActivityIndicator, StyleSheet, Text, View } from "react-native";
+
+import { colors } from "@/constants/colors";
 import { ProductCard } from "./ProductCard";
 import type { ViewMode } from "./ViewToggle";
 
@@ -33,7 +35,7 @@ export function ProductList({
   if (isLoading) {
     return (
       <View style={styles.center}>
-        <ActivityIndicator size="large" />
+        <ActivityIndicator color={colors.primary} size="large" />
       </View>
     );
   }
@@ -71,7 +73,7 @@ export function ProductList({
       ListFooterComponent={
         isFetchingNextPage ? (
           <View style={styles.footerLoader}>
-            <ActivityIndicator />
+            <ActivityIndicator color={colors.primary} />
           </View>
         ) : null
       }
@@ -92,6 +94,6 @@ const styles = StyleSheet.create({
   footerLoader: { paddingVertical: 18 },
   listSeparator: { height: 12 },
   gridSeparator: { height: 0 },
-  error: { color: "#DC2626" },
-  empty: { color: "#6B7280" },
+  error: { color: colors.error },
+  empty: { color: colors.textMuted },
 });

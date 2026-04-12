@@ -1,5 +1,8 @@
 import { Link } from "expo-router";
 import { Image, Pressable, StyleSheet, Text, View } from "react-native";
+
+import { colors } from "@/constants/colors";
+import { fontSizes } from "@/constants/fontSizes";
 import type { ViewMode } from "./ViewToggle";
 
 type Product = {
@@ -20,7 +23,7 @@ export function ProductCard({ item, viewMode }: Props) {
 
   return (
     <View style={isGrid ? styles.gridWrapper : undefined}>
-      <Link asChild href={`/(protected)/product/${item.id}`}>
+      <Link asChild href={`/(main)/product/${item.id}`}>
         <Pressable style={[styles.card, isGrid ? styles.gridCard : null]}>
           <Image
             source={{ uri: item.thumbnail }}
@@ -42,17 +45,34 @@ export function ProductCard({ item, viewMode }: Props) {
 const styles = StyleSheet.create({
   gridWrapper: { flex: 1, paddingHorizontal: 4, marginBottom: 12 },
   card: {
-    backgroundColor: "#FFF",
+    backgroundColor: colors.surface,
     borderRadius: 14,
     overflow: "hidden",
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: colors.border,
   },
   gridCard: { height: "100%" },
-  image: { width: "100%", height: 160, backgroundColor: "#E5E7EB" },
+  image: {
+    width: "100%",
+    height: 160,
+    backgroundColor: colors.imagePlaceholder,
+  },
   gridImage: { height: 120 },
   cardBody: { padding: 12 },
-  productTitle: { fontSize: 16, fontWeight: "600", color: "#111827" },
-  category: { color: "#6B7280", marginTop: 4, textTransform: "capitalize" },
-  price: { marginTop: 8, fontSize: 18, fontWeight: "700", color: "#111827" },
+  productTitle: {
+    fontSize: fontSizes.md,
+    fontWeight: "600",
+    color: colors.primary,
+  },
+  category: {
+    color: colors.textMuted,
+    marginTop: 4,
+    textTransform: "capitalize",
+  },
+  price: {
+    marginTop: 8,
+    fontSize: fontSizes.xl,
+    fontWeight: "700",
+    color: colors.primary,
+  },
 });

@@ -2,6 +2,7 @@ import { useState } from "react";
 import { StyleSheet, TextInput, View } from "react-native";
 import { SafeAreaView } from "react-native-safe-area-context";
 
+import { colors } from "@/constants/colors";
 import { useAuth } from "@/features/auth/hooks";
 import { CategoryFilter } from "@/features/products/components/CategoryFilter";
 import { HomeHeader } from "@/features/products/components/HomeHeader";
@@ -12,7 +13,7 @@ import {
 } from "@/features/products/components/ViewToggle";
 import { useCategories, useProducts } from "@/features/products/hooks";
 
-export default function ProtectedHomeScreen() {
+export default function HomeScreen() {
   const { logout } = useAuth();
   const [search, setSearch] = useState("");
   const [category, setCategory] = useState<string | undefined>(undefined);
@@ -40,7 +41,7 @@ export default function ProtectedHomeScreen() {
           autoCorrect={false}
           onChangeText={setSearch}
           placeholder="Search products..."
-          placeholderTextColor="#9CA3AF"
+          placeholderTextColor={colors.textPlaceholder}
           style={styles.searchInput}
           value={search}
         />
@@ -64,15 +65,16 @@ export default function ProtectedHomeScreen() {
 }
 
 const styles = StyleSheet.create({
-  safeArea: { flex: 1, backgroundColor: "#F4F6F8" },
+  safeArea: { flex: 1, backgroundColor: colors.background },
   container: { flex: 1, paddingHorizontal: 16, paddingTop: 8 },
   searchInput: {
-    backgroundColor: "#FFFFFF",
+    backgroundColor: colors.surface,
     borderWidth: 1,
-    borderColor: "#E5E7EB",
+    borderColor: colors.border,
     borderRadius: 12,
     paddingHorizontal: 12,
     paddingVertical: 10,
     marginBottom: 10,
+    color: colors.primary,
   },
 });

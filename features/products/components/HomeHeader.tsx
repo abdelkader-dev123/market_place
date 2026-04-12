@@ -1,5 +1,8 @@
 import { Pressable, StyleSheet, Text, View } from "react-native";
 
+import { colors } from "@/constants/colors";
+import { fontSizes } from "@/constants/fontSizes";
+
 type Props = {
   onLogout: () => void;
 };
@@ -25,13 +28,17 @@ const styles = StyleSheet.create({
     justifyContent: "space-between",
     marginBottom: 14,
   },
-  title: { fontSize: 28, fontWeight: "700", color: "#111827" },
-  subtitle: { color: "#6B7280", marginTop: 4, maxWidth: 240 },
+  title: {
+    fontSize: fontSizes["4xl"],
+    fontWeight: "700",
+    color: colors.primary,
+  },
+  subtitle: { color: colors.textMuted, marginTop: 4, maxWidth: 240 },
   logoutButton: {
-    backgroundColor: "#111827",
+    backgroundColor: colors.primary,
     borderRadius: 10,
     paddingHorizontal: 12,
     paddingVertical: 9,
   },
-  logoutText: { color: "#FFF", fontWeight: "600" },
+  logoutText: { color: colors.onPrimary, fontWeight: "600" },
 });
