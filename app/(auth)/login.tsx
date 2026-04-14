@@ -1,6 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
 import { useRouter } from "expo-router";
-import { useState } from "react";
 import {
   ActivityIndicator,
   KeyboardAvoidingView,
@@ -11,24 +10,25 @@ import {
   TextInput,
   View,
 } from "react-native";
+import { SafeAreaView } from "react-native-safe-area-context";
 
 import { colors } from "@/constants/colors";
 import { fontSizes } from "@/constants/fontSizes";
 import { login as loginApi } from "@/features/auth/api";
-import { useAuth } from "@/features/auth/hooks";
-import { SafeAreaView } from "react-native-safe-area-context";
-
-const DEFAULT_USERNAME = "emilys";
-const DEFAULT_PASSWORD = "emilyspass";
+import { useAuth, useLoginForm } from "@/features/auth/hooks";
 
 export default function LoginScreen() {
   const router = useRouter();
   const { login } = useAuth();
-
-  const [username, setUsername] = useState(DEFAULT_USERNAME);
-  const [password, setPassword] = useState(DEFAULT_PASSWORD);
-  const [localError, setLocalError] = useState<string | null>(null);
-  const [requestError, setRequestError] = useState<string | null>(null);
+  const {
+    values,
+    fieldErrors,
+    requestError,
+    setField,
+    setRequestError,
+    validate,
+    clearErrors,
+  } = useLoginForm();
 
   const loginMutation = useMutation({
     mutationFn: loginApi,
@@ -41,16 +41,11 @@ export default function LoginScreen() {
     },
   });
 
-  const onSubmit = async () => {
-    setLocalError(null);
-    setRequestError(null);
-
-    if (!username.trim() || !password.trim()) {
-      setLocalError("Please enter both username and password.");
-      return;
-    }
-
-    loginMutation.mutate({ username, password });
+  const onSubmit = () => {
+    clearErrors();
+    const parsed = validate();
+    if (!parsed) return;
+    loginMutation.mutate(parsed);
   };
 
   return (
@@ -67,28 +62,40 @@ export default function LoginScreen() {
             <TextInput
               autoCapitalize="none"
               autoCorrect={false}
-              onChangeText={setUsername}
+              onChangeText={(v) => setField("username", v)}
               placeholder="Enter username"
               placeholderTextColor={colors.textPlaceholder}
-              style={styles.input}
-              value={username}
+              style={[
+                styles.input,
+                fieldErrors.username ? styles.inputError : null,
+              ]}
+              value={values.username}
             />
+            {fieldErrors.username ? (
+              <Text style={styles.fieldError}>{fieldErrors.username}</Text>
+            ) : null}
           </View>
 
           <View style={styles.inputGroup}>
             <Text style={styles.label}>Password</Text>
             <TextInput
-              onChangeText={setPassword}
+              onChangeText={(v) => setField("password", v)}
               placeholder="Enter password"
               placeholderTextColor={colors.textPlaceholder}
               secureTextEntry
-              style={styles.input}
-              value={password}
+              style={[
+                styles.input,
+                fieldErrors.password ? styles.inputError : null,
+              ]}
+              value={values.password}
             />
+            {fieldErrors.password ? (
+              <Text style={styles.fieldError}>{fieldErrors.password}</Text>
+            ) : null}
           </View>
 
-          {localError || requestError ? (
-            <Text style={styles.error}>{localError ?? requestError}</Text>
+          {requestError ? (
+            <Text style={styles.requestError}>{requestError}</Text>
           ) : null}
 
           <Pressable
@@ -134,22 +141,11 @@ const styles = StyleSheet.create({
     shadowOffset: { width: 0, height: 6 },
     elevation: 2,
   },
-  kicker: {
-    color: colors.textMuted,
-    fontSize: fontSizes.sm,
-    marginBottom: 4,
-  },
   title: {
     color: colors.primary,
     fontSize: fontSizes["4xl"],
     fontWeight: "700",
     marginBottom: 8,
-  },
-  subtitle: {
-    color: colors.textSecondary,
-    marginTop: 8,
-    marginBottom: 20,
-    lineHeight: 20,
   },
   inputGroup: {
     marginBottom: 14,
@@ -169,7 +165,15 @@ const styles = StyleSheet.create({
     color: colors.primary,
     fontSize: fontSizes.base,
   },
-  error: {
+  inputError: {
+    borderColor: colors.error,
+  },
+  fieldError: {
+    color: colors.error,
+    fontSize: fontSizes.xs,
+    marginTop: 4,
+  },
+  requestError: {
     color: colors.error,
     marginBottom: 10,
     fontSize: fontSizes.sm,
@@ -191,10 +195,5 @@ const styles = StyleSheet.create({
     color: colors.onPrimary,
     fontSize: fontSizes.md,
     fontWeight: "600",
-  },
-  helperText: {
-    marginTop: 14,
-    color: colors.textMuted,
-    fontSize: fontSizes.xs,
   },
 });
